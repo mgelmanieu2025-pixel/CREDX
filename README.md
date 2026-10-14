@@ -29,3 +29,31 @@ Supervised classification using logistic regression.
 1. Install dependencies:
    ```bash
    pip install -r requirements.txt
+
+   ## API Endpoint
+POST /api/predict
+
+Full API URL:
+https://mirandagelman.pythonanywhere.com/api/predict
+
+### Example request
+```bash
+curl -X POST https://mirandagelman.pythonanywhere.com/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "monthly_savings_consistency": 0.8,
+    "rent_and_bill_payment_history": 0.9,
+    "spending_to_income_ratio": 0.3
+  }'
+
+{
+  "prediction": 1,
+  "label": "good borrower / loan repayment success",
+  "probability": 0.89
+}
+
+{
+  "prediction": 1,
+  "label": "good borrower / loan repayment success",
+  "probability": 0.89
+}
