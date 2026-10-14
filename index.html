@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>CredX</title>
+</head>
+<body>
+    <h1>CredX - Loan Readiness Predictor</h1>
+
+    <form action="/predict" method="get">
+        <label>Monthly Savings Consistency:</label>
+        <input type="text" name="monthly_savings_consistency"><br><br>
+
+        <label>Rent and Bill Payment History:</label>
+        <input type="text" name="rent_and_bill_payment_history"><br><br>
+
+        <label>Spending to Income Ratio:</label>
+        <input type="text" name="spending_to_income_ratio"><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
