@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CredX – Credit readiness for young people</title>
+<meta name="description" content="CredX builds an alternative credit score for students, young professionals and freelancers from rent, savings and income data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#" data-go="home"><span class="logo">C</span>CredX</a>
+  <nav>
+    <button class="link" data-go="home">Home</button>
+    <button class="link" data-go="history">My checks</button>
+    <button class="btn small" data-go="profile">Check my score</button>
+  </nav>
+</header>
+
+<main>
+<!-- ============ HOME ============ -->
+<section id="view-home" class="view active">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Credit risk · built for Gen Z</p>
+      <h1>No credit history?<br><span class="accent">Your rent and savings count.</span></h1>
+      <p class="lead">CredX turns everyday money habits (rent, bills, savings, gig income) into an
+        <b>alternative credit score</b>. You also get a <b>default-risk check</b> and a personal plan to become loan-ready.</p>
+      <div class="cta-row">
+        <button class="btn" data-go="profile">Start my free check →</button>
+        <button class="btn ghost" id="demo-btn">Try a demo profile</button>
+      </div>
+      <p class="fine">Takes about 2 minutes. No sign-up. Your data stays in your browser.</p>
+    </div>
+    <div class="hero-card" aria-hidden="true">
+      <div class="mini-gauge"><span>742</span><small>Readiness score</small></div>
+      <ul class="mini-list">
+        <li><i class="dot good"></i>Rent on time 12/12 months</li>
+        <li><i class="dot good"></i>Saving 14% of income</li>
+        <li><i class="dot warn"></i>3 Buy-Now-Pay-Later plans open</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid3 features">
+    <article><h3>🎓 Students</h3><p>Spot risky spending and BNPL stacking before it turns into missed payments and default.</p></article>
+    <article><h3>💼 Young professionals</h3><p>Build a credit profile from rent and bills, even with no credit card history.</p></article>
+    <article><h3>🛠️ Freelancers</h3><p>Income volatility and platform ratings feed into a fair score for irregular earners.</p></article>
+  </div>
+</section>
+
+<!-- ============ PROFILE PICK ============ -->
+<section id="view-profile" class="view">
+  <h2>Who are you right now?</h2>
+  <p class="lead">We tailor the questions and advice to your situation.</p>
+  <div class="grid3 profiles" role="radiogroup" aria-label="Profile">
+    <button class="profile-card" data-profile="student" role="radio"><span class="emoji">🎓</span><b>Student</b><small>Part-time job, student loan, allowance</small></button>
+    <button class="profile-card" data-profile="professional" role="radio"><span class="emoji">💼</span><b>Young professional</b><small>Salaried, first jobs, renting</small></button>
+    <button class="profile-card" data-profile="freelancer" role="radio"><span class="emoji">🛠️</span><b>Freelancer / gig worker</b><small>Irregular income, platforms, self-employed</small></button>
+  </div>
+  <div class="demo-row">
+    <span>Just testing? Load a sample:</span>
+    <button class="chip" data-sample="student">Sofia, student at risk</button>
+    <button class="chip" data-sample="professional">Leo, steady renter</button>
+    <button class="chip" data-sample="freelancer">Maya, freelance designer</button>
+  </div>
+</section>
+
+<!-- ============ FORM ============ -->
+<section id="view-form" class="view">
+  <div class="steps" aria-hidden="true"><span class="step on">1 Housing &amp; bills</span><span class="step">2 Savings &amp; spending</span><span class="step">3 Income &amp; debt</span></div>
+  <form id="assess" novalidate>
+    <fieldset class="panel" data-step="0">
+      <legend>Housing &amp; bills</legend>
+      <div class="field"><label for="name">First name (optional)</label><input id="name" maxlength="30" placeholder="e.g. Alex"></div>
+      <div class="field range" data-key="rent_ontime_pct"><label>Rent paid on time, last 12 months</label></div>
+      <div class="field range" data-key="rent_history_months"><label>How long have you been paying rent?</label></div>
+      <div class="field range" data-key="bills_ontime_pct"><label>Phone, utility and subscription bills paid on time</label></div>
+    </fieldset>
+    <fieldset class="panel" data-step="1" hidden>
+      <legend>Savings &amp; spending</legend>
+      <div class="field"><label for="income">Average monthly income (€)</label><input id="income" type="number" min="0" max="20000" step="50" value="1200" inputmode="numeric"></div>
+      <div class="field range" data-key="savings_rate_pct"><label>Share of income you save each month</label></div>
+      <div class="field range" data-key="savings_months"><label>In how many of the last 12 months did you manage to save something?</label></div>
+      <div class="field range" data-key="emergency_fund_months"><label>Emergency fund (months of expenses you could cover)</label></div>
+      <div class="field range" data-key="discretionary_pct"><label>Spending on non-essentials (eating out, shopping, nights out)</label></div>
+    </fieldset>
+    <fieldset class="panel" data-step="2" hidden>
+      <legend>Income &amp; debt</legend>
+      <div class="field range" data-key="income_history_months"><label>How long have you had a regular income?</label></div>
+      <div class="field range" data-key="income_volatility_pct"><label>How much does your income change month to month?</label></div>
+      <div class="field range freelance-only" data-key="platform_rating"><label>Average rating on gig platforms or from clients</label></div>
+      <div class="field range" data-key="debt_to_income_pct"><label>Monthly debt repayments as % of income (loans, cards)</label></div>
+      <div class="field range" data-key="bnpl_active"><label>Active Buy-Now-Pay-Later plans (Klarna, PayPal Pay in 3…)</label></div>
+      <div class="field range" data-key="overdrafts_6m"><label>Times you went overdrawn in the last 6 months</label></div>
+    </fieldset>
+    <div class="form-nav">
+      <button type="button" class="btn ghost" id="prev">← Back</button>
+      <button type="button" class="btn" id="next">Next →</button>
+    </div>
+  </form>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="view-results" class="view">
+  <div class="results-head">
+    <div>
+      <p class="eyebrow" id="res-profile"></p>
+      <h2 id="res-title">Your credit readiness</h2>
+    </div>
+    <div class="res-actions">
+      <button class="btn ghost small" id="download">Download report</button>
+      <button class="btn small" data-go="profile">New check</button>
+    </div>
+  </div>
+
+  <div class="grid-res">
+    <div class="card score-card">
+      <svg viewBox="0 0 200 120" class="gauge" role="img" aria-labelledby="score-num">
+        <path d="M20 110 A80 80 0 0 1 180 110" class="g-track"/>
+        <path d="M20 110 A80 80 0 0 1 180 110" class="g-fill" id="g-fill"/>
+      </svg>
+      <div class="score-num" id="score-num">–</div>
+      <div class="band" id="band">–</div>
+      <p class="muted small">CredX Readiness Score · 300–850</p>
+    </div>
+    <div class="card">
+      <h3>Risk assessment</h3>
+      <div class="kpi"><span>Predicted default risk (12 mo.)</span><b id="pd">–</b></div>
+      <div class="kpi"><span>Repayment reliability</span><b id="reliab">–</b></div>
+      <div class="kpi"><span>Loan readiness</span><b id="readiness">–</b></div>
+      <div class="kpi"><span>Suggested safe starter credit</span><b id="limit">–</b></div>
+      <p class="muted small" id="verdict"></p>
+    </div>
+  </div>
+
+  <div class="card api-card" id="api-card">
+    <div class="api-head">
+      <div>
+        <p class="eyebrow">Loan repayment prediction · live ML API</p>
+        <h3>Probability of repaying a loan successfully</h3>
+      </div>
+      <span class="api-badge" id="api-badge">Connecting…</span>
+    </div>
+    <div class="api-body">
+      <div class="api-prob" id="api-prob">…</div>
+      <div class="api-meta">
+        <div class="api-decision" id="api-decision"></div>
+        <table class="api-inputs" aria-label="Inputs sent to the ML model">
+          <tr><td>Monthly savings consistency</td><td id="ai-msc">–</td></tr>
+          <tr><td>Rent &amp; bill payment history</td><td id="ai-rbp">–</td></tr>
+          <tr><td>Spending to income ratio</td><td id="ai-sir">–</td></tr>
+        </table>
+        <p class="muted small">Our Python (Flask) machine-learning model, hosted on PythonAnywhere, returns this prediction. <a id="api-link" href="#" target="_blank" rel="noopener">See the raw API call ↗</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="alerts-card">
+    <h3>⚠️ Default-prevention alerts</h3>
+    <ul id="alerts" class="alerts"></ul>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>What helps your score</h3><ul id="pos" class="factors"></ul></div>
+    <div class="card"><h3>What hurts your score</h3><ul id="neg" class="factors"></ul></div>
+  </div>
+
+  <div class="card">
+    <h3>Your action plan</h3>
+    <p class="muted small">Each step is ranked by how many points our model predicts it would add.</p>
+    <ol id="plan" class="plan"></ol>
+  </div>
+
+  <div class="card">
+    <div class="sim-head"><h3>What-if simulator</h3><span class="sim-score">Simulated score: <b id="sim-score">–</b> <span id="sim-delta"></span> · API repayment: <b id="sim-api">–</b></span></div>
+    <p class="muted small">Move the sliders to see how changing your habits would affect your score.</p>
+    <div id="sim" class="sim-grid"></div>
+    <button class="btn ghost small" id="sim-reset">Reset to my answers</button>
+  </div>
+
+  <p class="disclaimer">CredX is a student MVP. The loan repayment probability comes from our Flask ML API on PythonAnywhere. The Readiness Score comes from a second, in-app logistic-regression model trained on synthetic alternative-credit data (see <code>model/train_model.py</code>, test AUC <span id="auc">–</span>). This is an educational tool, not a lending decision or financial advice.</p>
+</section>
+
+<!-- ============ HISTORY ============ -->
+<section id="view-history" class="view">
+  <h2>My previous checks</h2>
+  <p class="lead">Saved on this device only, so you can track your progress.</p>
+  <div id="history-list"></div>
+</section>
+</main>
+
+<footer class="foot">CredX · Youth Fintech MVP · Credit risk · <span id="model-ver"></span></footer>
+<script src="app.js"></script>
+</body>
+</html>

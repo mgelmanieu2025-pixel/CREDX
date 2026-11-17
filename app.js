@@ -16,6 +16,7 @@
     rent_history_months:   { min: 0, max: 72,  step: 1,   fmt: v => v >= 12 ? (v / 12).toFixed(1).replace(".0", "") + " yrs" : v + " mo", hint: "Living with parents? Leave it low. We still score you on the other habits." },
     bills_ontime_pct:      { min: 0, max: 100, step: 1,   fmt: v => v + "%" },
     savings_rate_pct:      { min: 0, max: 50,  step: 1,   fmt: v => v + "%" },
+    savings_months:        { min: 0, max: 12,  step: 1,   fmt: v => v + "/12 mo", label: "Months you saved (last 12)", hint: "Even €10 counts. Consistency matters more than amount" },
     emergency_fund_months: { min: 0, max: 12,  step: 0.5, fmt: v => v + " mo", hint: "Savings ÷ what you spend in a normal month" },
     discretionary_pct:     { min: 5, max: 80,  step: 1,   fmt: v => v + "%", hint: "Share of your spending that isn't rent, food, transport or bills" },
     income_history_months: { min: 0, max: 72,  step: 1,   fmt: v => v >= 12 ? (v / 12).toFixed(1).replace(".0", "") + " yrs" : v + " mo" },
@@ -28,14 +29,14 @@
 
   const PROFILE_LABEL = { student: "Student", professional: "Young professional", freelancer: "Freelancer / gig worker" };
   const DEFAULTS = {
-    student:      { rent_ontime_pct: 92, rent_history_months: 10, bills_ontime_pct: 90, income: 700,  savings_rate_pct: 6,  emergency_fund_months: 0.5, discretionary_pct: 38, income_history_months: 8,  income_volatility_pct: 25, platform_rating: 4.5, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 1 },
-    professional: { rent_ontime_pct: 97, rent_history_months: 24, bills_ontime_pct: 95, income: 1700, savings_rate_pct: 10, emergency_fund_months: 1.5, discretionary_pct: 30, income_history_months: 20, income_volatility_pct: 8,  platform_rating: 4.5, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 0 },
-    freelancer:   { rent_ontime_pct: 94, rent_history_months: 18, bills_ontime_pct: 92, income: 1500, savings_rate_pct: 8,  emergency_fund_months: 1,   discretionary_pct: 30, income_history_months: 14, income_volatility_pct: 45, platform_rating: 4.6, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 1 },
+    student:      { savings_months: 6, rent_ontime_pct: 92, rent_history_months: 10, bills_ontime_pct: 90, income: 700,  savings_rate_pct: 6,  emergency_fund_months: 0.5, discretionary_pct: 38, income_history_months: 8,  income_volatility_pct: 25, platform_rating: 4.5, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 1 },
+    professional: { savings_months: 10, rent_ontime_pct: 97, rent_history_months: 24, bills_ontime_pct: 95, income: 1700, savings_rate_pct: 10, emergency_fund_months: 1.5, discretionary_pct: 30, income_history_months: 20, income_volatility_pct: 8,  platform_rating: 4.5, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 0 },
+    freelancer:   { savings_months: 7, rent_ontime_pct: 94, rent_history_months: 18, bills_ontime_pct: 92, income: 1500, savings_rate_pct: 8,  emergency_fund_months: 1,   discretionary_pct: 30, income_history_months: 14, income_volatility_pct: 45, platform_rating: 4.6, debt_to_income_pct: 15, bnpl_active: 1, overdrafts_6m: 1 },
   };
   const SAMPLES = {
-    student:      { name: "Sofia", profile: "student",      v: { rent_ontime_pct: 83,  rent_history_months: 8,  bills_ontime_pct: 80, income: 650,  savings_rate_pct: 2,  emergency_fund_months: 0,   discretionary_pct: 48, income_history_months: 6,  income_volatility_pct: 30, platform_rating: 4.5, debt_to_income_pct: 24, bnpl_active: 4, overdrafts_6m: 3 } },
-    professional: { name: "Leo",   profile: "professional", v: { rent_ontime_pct: 100, rent_history_months: 30, bills_ontime_pct: 98, income: 1900, savings_rate_pct: 15, emergency_fund_months: 3,   discretionary_pct: 25, income_history_months: 28, income_volatility_pct: 5,  platform_rating: 4.5, debt_to_income_pct: 12, bnpl_active: 0, overdrafts_6m: 0 } },
-    freelancer:   { name: "Maya",  profile: "freelancer",   v: { rent_ontime_pct: 95,  rent_history_months: 18, bills_ontime_pct: 92, income: 1600, savings_rate_pct: 10, emergency_fund_months: 1.5, discretionary_pct: 30, income_history_months: 20, income_volatility_pct: 50, platform_rating: 4.8, debt_to_income_pct: 18, bnpl_active: 1, overdrafts_6m: 1 } },
+    student:      { name: "Sofia", profile: "student",      v: { savings_months: 2, rent_ontime_pct: 83,  rent_history_months: 8,  bills_ontime_pct: 80, income: 650,  savings_rate_pct: 2,  emergency_fund_months: 0,   discretionary_pct: 48, income_history_months: 6,  income_volatility_pct: 30, platform_rating: 4.5, debt_to_income_pct: 24, bnpl_active: 4, overdrafts_6m: 3 } },
+    professional: { name: "Leo",   profile: "professional", v: { savings_months: 12, rent_ontime_pct: 100, rent_history_months: 30, bills_ontime_pct: 98, income: 1900, savings_rate_pct: 15, emergency_fund_months: 3,   discretionary_pct: 25, income_history_months: 28, income_volatility_pct: 5,  platform_rating: 4.5, debt_to_income_pct: 12, bnpl_active: 0, overdrafts_6m: 0 } },
+    freelancer:   { name: "Maya",  profile: "freelancer",   v: { savings_months: 8, rent_ontime_pct: 95,  rent_history_months: 18, bills_ontime_pct: 92, income: 1600, savings_rate_pct: 10, emergency_fund_months: 1.5, discretionary_pct: 30, income_history_months: 20, income_volatility_pct: 50, platform_rating: 4.8, debt_to_income_pct: 18, bnpl_active: 1, overdrafts_6m: 1 } },
   };
   const NEUTRAL_RATING = 4.5; // value used for non-freelancers in training data
 
@@ -90,7 +91,7 @@
   function buildRange(container, key, value, onInput, idPrefix) {
     const f = FIELDS[key];
     const id = idPrefix + key;
-    const label = container.querySelector("label") || Object.assign(document.createElement("label"), { textContent: MODEL.features.find(x => x.key === key).label });
+    const label = container.querySelector("label") || Object.assign(document.createElement("label"), { textContent: (MODEL.features.find(x => x.key === key) || f).label });
     label.htmlFor = id;
     container.innerHTML = "";
     container.appendChild(label);
@@ -179,6 +180,7 @@
     renderFactors(r.contrib);
     renderPlan(r.score);
     renderSim();
+    renderApi(state.values);
     $("#auc").textContent = MODEL.metrics.auc;
   }
 
@@ -249,7 +251,7 @@
   function renderSim() {
     simValues = { ...state.values };
     const box = $("#sim"); box.innerHTML = "";
-    MODEL.features.forEach(f => {
+    [...MODEL.features, { key: "savings_months" }].forEach(f => {
       if (f.key === "platform_rating" && state.profile !== "freelancer") return;
       const d = document.createElement("div"); d.className = "field";
       box.appendChild(d);
@@ -265,8 +267,69 @@
     const el = $("#sim-delta");
     el.textContent = d === 0 ? "" : (d > 0 ? `(+${d})` : `(${d})`);
     el.className = d > 0 ? "up" : "down";
+    clearTimeout(simApiTimer);
+    $("#sim-api").textContent = "…";
+    const req = ++simApiReq;
+    simApiTimer = setTimeout(() => callApi(simValues).then(r => {
+      if (req === simApiReq) $("#sim-api").textContent = Math.round(r.probability * 100) + "%";
+    }).catch(() => { if (req === simApiReq) $("#sim-api").textContent = "n/a"; }), 500);
   }
+  let simApiTimer = null, simApiReq = 0;
   $("#sim-reset").addEventListener("click", renderSim);
+
+  // ---------- External ML API (Flask on PythonAnywhere) ----------
+  const ML_API_DIRECT = "https://mirandagelman.pythonanywhere.com/predict";
+  const r2 = x => Math.round(Math.min(1, Math.max(0, x)) * 100) / 100;
+  // Map the user's answers to the 3 features our Python model was trained on (all 0–1)
+  function apiInputs(v) {
+    return {
+      monthly_savings_consistency: r2(v.savings_months / 12),
+      rent_and_bill_payment_history: r2((v.rent_ontime_pct + v.bills_ontime_pct) / 200),
+      spending_to_income_ratio: r2(1 - v.savings_rate_pct / 100),
+    };
+  }
+  const qs = inp => new URLSearchParams(Object.entries(inp).map(([k, x]) => [k, x.toFixed(2)])).toString();
+  async function callApi(values) {
+    const inp = apiInputs(values), q = qs(inp);
+    // 1) our Vercel proxy (/api/predict). 2) If that's unavailable (e.g. local preview), call the API directly.
+    try {
+      const r = await fetch("api/predict?" + q, { cache: "no-store" });
+      const j = await r.json();
+      if (r.ok && typeof j.probability === "number") return { probability: j.probability, inputs: inp, url: ML_API_DIRECT + "?" + q };
+    } catch { /* proxy not available: fall through */ }
+    const r = await fetch(ML_API_DIRECT + "?" + q);
+    const t = await r.text();
+    const m = t.match(/(\d*\.?\d+)\s*$/);
+    if (!r.ok || !m) throw new Error("ML API unavailable");
+    return { probability: parseFloat(m[1]), inputs: inp, url: ML_API_DIRECT + "?" + q };
+  }
+  let apiReq = 0;
+  async function renderApi(values) {
+    const req = ++apiReq, inp = apiInputs(values);
+    $("#ai-msc").textContent = inp.monthly_savings_consistency.toFixed(2);
+    $("#ai-rbp").textContent = inp.rent_and_bill_payment_history.toFixed(2);
+    $("#ai-sir").textContent = inp.spending_to_income_ratio.toFixed(2);
+    $("#api-link").href = ML_API_DIRECT + "?" + qs(inp);
+    const badge = $("#api-badge"), prob = $("#api-prob"), dec = $("#api-decision");
+    badge.textContent = "Connecting…"; badge.className = "api-badge"; prob.textContent = "…"; prob.style.color = ""; dec.textContent = "Asking the model…";
+    try {
+      const r = await callApi(values);
+      if (req !== apiReq) return;
+      const p = r.probability;
+      badge.textContent = "● Live · PythonAnywhere"; badge.className = "api-badge live";
+      prob.textContent = Math.round(p * 100) + "%";
+      prob.style.color = p >= 0.75 ? "var(--good)" : p >= 0.5 ? "var(--warn)" : "var(--bad)";
+      dec.textContent = p >= 0.75 ? "✅ Likely to repay: a good candidate for a small loan or credit-builder product."
+        : p >= 0.5 ? "🟡 Borderline: improve one or two habits before you borrow."
+        : "🔴 High chance of missed repayments: borrowing is not recommended yet.";
+      state.apiProb = p;
+    } catch (e) {
+      if (req !== apiReq) return;
+      badge.textContent = "Offline"; badge.className = "api-badge err";
+      prob.textContent = "–";
+      dec.textContent = "The ML API isn't responding right now. The PythonAnywhere app may be asleep or disabled. Try again in a minute.";
+    }
+  }
 
   // ---------- History & report ----------
   const KEY = "credx_history_v1";
