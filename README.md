@@ -1,72 +1,39 @@
-# CredX
+# CredX – Alternative Credit Score for Young People (MVP)
 
-CredX is a fintech app that helps young adults estimate whether they are financially ready for a loan using alternative financial behavior data instead of traditional credit history.
+**Youth Fintech project · Assigned risk: Credit Risk**
 
-## Problem
-Young adults often do not have enough credit history, which makes it difficult for banks to judge whether they are good borrowers.
+Young people (students, first-job professionals, freelancers) often have **no traditional credit history**, so banks can't assess them. They also tend to fall into risky habits such as BNPL stacking and overdrafts, which lead to default. CredX scores credit readiness from **alternative data** and gives personalised advice to reduce default risk.
 
-## Machine Learning Task
-Supervised classification using logistic regression.
+## Main user journey
+1. Pick a profile: **Student**, **Young professional** or **Freelancer / gig worker**. You can also load a sample persona.
+2. Answer 3 short steps (about 2 min):
+   - Housing & bills: rent on time, rent history, bills on time
+   - Savings & spending: income, savings rate, emergency fund, non-essential spending
+   - Income & debt: income history, income volatility, gig rating (freelancers only), debt-to-income, BNPL plans, overdrafts
+3. Get your results:
+   - **CredX Readiness Score (300–850)** and a risk band
+   - **Predicted 12-month default probability**, repayment reliability, loan readiness and a suggested safe starter-credit amount
+   - **Default-prevention alerts**, for example BNPL stacking, overdrafts, high debt-to-income, or no emergency buffer
+   - **Factors helping and hurting** your score, explained by the model's contributions
+   - **Action plan** ranked by the number of score points the model predicts each step would add
+   - **What-if simulator**: move sliders and watch the score update live
+4. Your checks are saved on the device (*My checks*) so you can track progress. You can print or save a report as a PDF.
 
-## Features
-- monthly_savings_consistency
-- rent_and_bill_payment_history
-- spending_to_income_ratio
+## Machine-learning model
+- `model/train_model.py` trains a **logistic regression** (scikit-learn) on 20,000 synthetic young-borrower records, using 12 alternative-data features.
+- Test performance: **AUC ≈ 0.81**, accuracy ≈ 0.83 (25% hold-out).
+- The trained weights are exported to `model.json` and the scoring runs **in the browser**. No user data leaves the device.
+- Probability of default is converted to points with standard scorecard scaling: score = 640 − 45·ln(odds of default), clamped to 300–850.
 
-## Target Variable
-- loan_repayment_success
-  - 1 = good borrower / repaid the loan on time
-  - 0 = risky borrower / missed payments or defaulted
+Retrain: `pip install scikit-learn numpy` then `python model/train_model.py`.
 
-## Files
-- `fintech.py` - code that generates synthetic data, trains the model, evaluates it, and saves the model
-- `fintech.xlsx` - synthetic dataset
-- `fintech.joblib` - trained model
-- `flask_app.py` - web application and API
-- `templates/index.html` - HTML front end
-- `requirements.txt` - Python dependencies
+## Tech
+Static HTML/CSS/JavaScript with no build step. It deploys to Vercel as-is (Framework preset: **Other**, no build command).
 
-## How to Run
-1. Install dependencies:
-   pip install -r requirements.txt
+## Run locally
+```
+python -m http.server 8000
+# open http://localhost:8000
+```
 
-2. Run the Flask app:
-   python flask_app.py
-
-## PythonAnywhere Deployment
-Public URL:
-https://mirandagelman.pythonanywhere.com
-
-## HTML Front End
-The web page allows users to enter:
-- monthly_savings_consistency
-- rent_and_bill_payment_history
-- spending_to_income_ratio
-
-It returns a live prediction and prediction probability.
-
-## API Endpoint
-POST /api/predict
-
-Full API URL:
-https://mirandagelman.pythonanywhere.com/api/predict
-
-### Example request
-curl -X POST https://mirandagelman.pythonanywhere.com/api/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "monthly_savings_consistency": 0.8,
-    "rent_and_bill_payment_history": 0.9,
-    "spending_to_income_ratio": 0.3
-  }'
-
-### Example response
-{
-  "prediction": 1,
-  "label": "good borrower / loan repayment success",
-  "probability": 0.89
-}
-
-## Notes
-- The HTML form and the API endpoint both use the trained `fintech.joblib` model.
-- This project demonstrates how alternative financial behavior data can help estimate loan readiness for young adults.
+> Educational MVP. This is not a lending decision or financial advice. The training data is synthetic.

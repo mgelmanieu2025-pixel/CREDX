@@ -1,0 +1,101 @@
+{
+  "name": "CredX Alternative Credit Risk Model",
+  "version": "1.0.0",
+  "type": "logistic_regression",
+  "target": "P(default within 12 months)",
+  "features": [
+    {
+      "key": "rent_ontime_pct",
+      "label": "Rent paid on time (%)",
+      "mean": 84.19844372347198,
+      "std": 11.295218378463225,
+      "coef": -0.462250855170537
+    },
+    {
+      "key": "rent_history_months",
+      "label": "Months of rent history",
+      "mean": 18.06516111851411,
+      "std": 12.80487389969253,
+      "coef": -0.14943166940668168
+    },
+    {
+      "key": "bills_ontime_pct",
+      "label": "Phone/utility bills on time (%)",
+      "mean": 84.19214119204582,
+      "std": 8.055910565660517,
+      "coef": -0.2351712471698733
+    },
+    {
+      "key": "savings_rate_pct",
+      "label": "Share of income saved (%)",
+      "mean": 11.75264037055542,
+      "std": 7.631857659758446,
+      "coef": -0.3063575531165221
+    },
+    {
+      "key": "emergency_fund_months",
+      "label": "Emergency fund (months of expenses)",
+      "mean": 2.9234311678831193,
+      "std": 1.5566994773679341,
+      "coef": -0.34944215339044415
+    },
+    {
+      "key": "income_volatility_pct",
+      "label": "Income volatility (%)",
+      "mean": 24.761093610596603,
+      "std": 17.961389978742567,
+      "coef": 0.38165091148530333
+    },
+    {
+      "key": "income_history_months",
+      "label": "Months of steady income",
+      "mean": 16.876718438209554,
+      "std": 14.114232691702238,
+      "coef": -0.16998568818494078
+    },
+    {
+      "key": "debt_to_income_pct",
+      "label": "Debt payments / income (%)",
+      "mean": 20.300245139104593,
+      "std": 12.948079760786477,
+      "coef": 0.5830251576914948
+    },
+    {
+      "key": "bnpl_active",
+      "label": "Active Buy-Now-Pay-Later plans",
+      "mean": 1.0295333333333334,
+      "std": 1.0474705002474658,
+      "coef": 0.2603845462941152
+    },
+    {
+      "key": "overdrafts_6m",
+      "label": "Overdrafts in last 6 months",
+      "mean": 0.8684,
+      "std": 1.0004739410232686,
+      "coef": 0.36956346429115516
+    },
+    {
+      "key": "discretionary_pct",
+      "label": "Non-essential spending (%)",
+      "mean": 31.937895650449775,
+      "std": 11.725571122025306,
+      "coef": 0.24790027495995426
+    },
+    {
+      "key": "platform_rating",
+      "label": "Gig platform / peer rating (0-5)",
+      "mean": 4.471729979117642,
+      "std": 0.21209852318477715,
+      "coef": -0.09473671997082027
+    }
+  ],
+  "intercept": -1.8023883235179419,
+  "metrics": {
+    "n_train": 15000,
+    "n_test": 5000,
+    "default_rate": 0.2071,
+    "auc": 0.8095,
+    "accuracy": 0.8264,
+    "brier": 0.1252
+  }
+}
